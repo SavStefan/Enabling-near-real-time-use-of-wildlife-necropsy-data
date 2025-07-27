@@ -9,7 +9,7 @@ navbarPage("D.E.E", #maybe incorporate some Te reo??
                                  sidebarPanel(fileInput("file","Upload a .csv file from the Massey Pathology Register"),
                                              # checkboxInput("header","header",TRUE),
                                               uiOutput('ageselect'),
-                                              uiOutput('genderselect'),
+                                              uiOutput('sexselect'),
                                               uiOutput('speciesselect'),
                                               uiOutput('daterange'),
                                               p('Drop down menu options are created from all levels found in the respective variable within The Register'),

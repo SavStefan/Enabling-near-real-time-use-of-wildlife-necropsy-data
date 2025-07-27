@@ -20,7 +20,6 @@ library(ggthemes)
 library(lubridate)
 library(topicmodels)
 library(plotly)
-library(shinyscreenshot)
 
 
   

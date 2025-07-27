@@ -6,7 +6,6 @@ shinyServer(function(input, output, session){
   file_upload<-reactive({ 
     req(input$file)
     file<-read.csv(input$file$datapath, header = TRUE)
-    screenshot(scale = 3)
   })
   
   #Merge all free text fields in its own reactive object
@@ -52,7 +51,7 @@ shinyServer(function(input, output, session){
   
   #DESCRIBE functions ####
   
-  #Filters (Age, species, gender, date) ####
+  #Filters (Age, species, sex, date) ####
   
   #Filter by Time in date range ('daterange')
   
@@ -75,7 +74,7 @@ shinyServer(function(input, output, session){
   })
   
   #filter by Animal_Sex_Classification
-  output$genderselect<-renderUI({ pickerInput("genderselect", "Select Sex", 
+  output$sexselect<-renderUI({ pickerInput("sexselect", "Select sexes", 
                                               choices = levels(as.factor(docvars(filtered_by_date())$Animal_Sex_Classification)), 
                                               options = list('actions-box'=TRUE), multiple= TRUE,
                                               selected = levels(as.factor(docvars(filtered_by_date())$Animal_Sex_Classification)))
@@ -90,7 +89,7 @@ shinyServer(function(input, output, session){
   
   filtered_corpus<- reactive({corpus_subset(filtered_by_date(),
                                             Animal_Age_Classification %in% input$ageselect & 
-                                              Animal_Sex_Classification %in% input$genderselect & 
+                                              Animal_Sex_Classification %in% input$sexselect & 
                                               Animal_Breed %in% input$speciesselect) 
     })
   
@@ -135,12 +134,12 @@ shinyServer(function(input, output, session){
     ggplot(docvars(filtered_corpus()),aes(Animal_Sex_Classification)) +
       geom_bar(fill='steelblue')+
       theme(axis.text.x = element_text(angle = 50, vjust = 0.6, size=15))+
-      xlab('Gender')+
+      xlab('Sex')+
       ylab('Number')+
       theme_economist()})
   
   output$sextable<-renderTable({sextable<- table(docvars(filtered_corpus())$Animal_Sex_Classification,
-                                      dnn = 'Gender')
+                                      dnn = 'Sex')
     sextable<-as.data.frame(sextable) %>% 
       mutate(Percent=round((Freq/sum(Freq))*100, digits = 2))
     
